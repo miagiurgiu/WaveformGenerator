@@ -335,82 +335,127 @@ def render_transparent_video(
 
     print("Transparent video completed.")
 
-def main():
-    # audio_file=Path(__file__).parent / "Diabelli Sonatina.wav"
-    audio_file = Path(__file__).parent / "Imagine1.mp3"
-    samples=decode_audio(audio_file)
-    print("Number of samples:",len(samples))
-    print("First 10 samples:",samples[:10])
-    print("Smallest value:",samples.min())
-    print("Largest value:",samples.max())
+def generate_video(
+    audio_file,
+    output_file,
+    color,
+    duration_seconds=None
+):
+    global WAVEFORM_COLOR
+    WAVEFORM_COLOR = color
 
-    # print("Python version:", sys.version)
-    # print("NumPy version:", np.__version__)
-    # print("Audio waveform project is ready.")
-
-    analysis = analyse_basic_audio(samples)
-    duration, peak, rms, peak_dbfs, rms_dbfs = analysis
-    print("Duration:", duration, "seconds")
-    print("Peak amplitude:", peak)
-    print("RMS amplitude:", rms)
-    print("Peak level:", peak_dbfs, "dBFS")
-    print("RMS level:", rms_dbfs, "dBFS")
+    samples = decode_audio(audio_file)
 
     frame_loudness = calculate_frame_loudness(samples)
+    smoothed_loudness = smooth_loudness(
+        frame_loudness
+    )
 
-    print("Number of video frames:", len(frame_loudness))
-    print("Samples per video frame:", SAMPLE_RATE // FPS)
-    print("First 20 frame loudness values:")
-    print(frame_loudness[:20])
-    print("Quietest frame:", frame_loudness.min())
-    print("Loudest frame:", frame_loudness.max())
-
-    smoothed_loudness = smooth_loudness(frame_loudness)
-
-    print("\nRaw versus smoothed loudness:")
-
-    for frame_index in range(20):
-        print(
-            f"Frame {frame_index:02d}: "
-            f"raw={frame_loudness[frame_index]:.6f}, "
-            f"smoothed={smoothed_loudness[frame_index]:.6f}"
-        )
-
-    activity, reference_level = normalize_loudness(
+    activity, _ = normalize_loudness(
         smoothed_loudness
     )
 
-    print("\nReference loudness:", reference_level)
-    print("First 20 activity values:")
-    print(activity[:20])
+    audio_duration = len(samples) / SAMPLE_RATE
 
-    active_frames = np.where(activity > 0.0)[0]
-
-    if len(active_frames) > 0:
-        first_active_frame = active_frames[0]
-        first_active_time = first_active_frame / FPS
-
-        print("First active frame:", first_active_frame)
-        print("First active time:", first_active_time, "seconds")
-
-
-    preview_seconds = 3
-
-    transparent_output = (
-            Path(__file__).parent
-            / "waveform_transparent.mov"
-    )
+    if duration_seconds is None:
+        duration_seconds = audio_duration
+    else:
+        duration_seconds = min(
+            duration_seconds,
+            audio_duration
+        )
 
     render_transparent_video(
         audio_file,
         activity,
-        transparent_output,
-        preview_seconds
+        output_file,
+        duration_seconds
     )
 
-    print(
-        "Created transparent video:",
-        transparent_output
+def main():
+    # # audio_file=Path(__file__).parent / "Diabelli Sonatina.wav"
+    # audio_file = Path(__file__).parent / "Imagine1.mp3"
+    # samples=decode_audio(audio_file)
+    # print("Number of samples:",len(samples))
+    # print("First 10 samples:",samples[:10])
+    # print("Smallest value:",samples.min())
+    # print("Largest value:",samples.max())
+    #
+    # # print("Python version:", sys.version)
+    # # print("NumPy version:", np.__version__)
+    # # print("Audio waveform project is ready.")
+    #
+    # analysis = analyse_basic_audio(samples)
+    # duration, peak, rms, peak_dbfs, rms_dbfs = analysis
+    # print("Duration:", duration, "seconds")
+    # print("Peak amplitude:", peak)
+    # print("RMS amplitude:", rms)
+    # print("Peak level:", peak_dbfs, "dBFS")
+    # print("RMS level:", rms_dbfs, "dBFS")
+    #
+    # frame_loudness = calculate_frame_loudness(samples)
+    #
+    # print("Number of video frames:", len(frame_loudness))
+    # print("Samples per video frame:", SAMPLE_RATE // FPS)
+    # print("First 20 frame loudness values:")
+    # print(frame_loudness[:20])
+    # print("Quietest frame:", frame_loudness.min())
+    # print("Loudest frame:", frame_loudness.max())
+    #
+    # smoothed_loudness = smooth_loudness(frame_loudness)
+    #
+    # print("\nRaw versus smoothed loudness:")
+    #
+    # for frame_index in range(20):
+    #     print(
+    #         f"Frame {frame_index:02d}: "
+    #         f"raw={frame_loudness[frame_index]:.6f}, "
+    #         f"smoothed={smoothed_loudness[frame_index]:.6f}"
+    #     )
+    #
+    # activity, reference_level = normalize_loudness(
+    #     smoothed_loudness
+    # )
+    #
+    # print("\nReference loudness:", reference_level)
+    # print("First 20 activity values:")
+    # print(activity[:20])
+    #
+    # active_frames = np.where(activity > 0.0)[0]
+    #
+    # if len(active_frames) > 0:
+    #     first_active_frame = active_frames[0]
+    #     first_active_time = first_active_frame / FPS
+    #
+    #     print("First active frame:", first_active_frame)
+    #     print("First active time:", first_active_time, "seconds")
+    #
+    #
+    # preview_seconds = 3
+    #
+    # transparent_output = (
+    #         Path(__file__).parent
+    #         / "waveform_transparent.mov"
+    # )
+    #
+    # render_transparent_video(
+    #     audio_file,
+    #     activity,
+    #     transparent_output,
+    #     preview_seconds
+    # )
+    #
+    # print(
+    #     "Created transparent video:",
+    #     transparent_output
+    # )
+    project_folder = Path(__file__).parent
+
+    generate_video(
+        audio_file=project_folder / "Imagine1.mp3",
+        output_file=project_folder / "waveform_transparent.mov",
+        color="#C8A96A",
+        duration_seconds=3
     )
 
 if __name__ == "__main__":
