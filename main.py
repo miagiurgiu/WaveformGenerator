@@ -254,18 +254,19 @@ def create_waveform_frame(activity_value,frame_index):
     return image
 
 
-def render_transparent_video(
+def render_video(
     audio_file,
     activity,
     output_file,
-    duration_seconds
+    duration_seconds,
+    export_type
 ):
-    requested_frame_count = int(
+    requested_frames = int(
         duration_seconds * FPS
     )
 
     frame_count = min(
-        requested_frame_count,
+        requested_frames,
         len(activity)
     )
 
@@ -280,52 +281,92 @@ def render_transparent_video(
         "-s", f"{WIDTH}x{HEIGHT}",
         "-framerate", str(FPS),
         "-i", "pipe:0",
-
-        "-i", str(audio_file),
-
-        "-t", str(actual_duration),
-
-        "-map", "0:v:0",
-        "-map", "1:a:0",
-
-        "-c:v", "prores_ks",
-        "-profile:v", "4",
-        "-pix_fmt", "yuva444p10le",
-        "-alpha_bits", "16",
-
-        "-c:a", "pcm_s24le",
-
-        str(output_file),
     ]
+
+    if export_type != "prores_silent":
+        command.extend([
+            "-i", str(audio_file)
+        ])
+
+    command.extend([
+        "-t", str(actual_duration),
+        "-map", "0:v:0",
+    ])
+
+    if export_type != "prores_silent":
+        command.extend([
+            "-map", "1:a:0"
+        ])
+
+    if export_type == "youtube":
+        command.extend([
+            "-c:v", "libx264",
+            "-preset", "medium",
+            "-crf", "17",
+            "-pix_fmt", "yuv420p",
+
+            "-c:a", "aac",
+            "-b:a", "320k",
+
+            "-movflags", "+faststart",
+        ])
+
+    else:
+        command.extend([
+            "-c:v", "prores_ks",
+            "-profile:v", "4",
+            "-pix_fmt", "yuva444p10le",
+            "-alpha_bits", "16",
+        ])
+
+        if export_type == "prores_audio":
+            command.extend([
+                "-c:a", "pcm_s24le"
+            ])
+
+    command.append(str(output_file))
 
     process = subprocess.Popen(
         command,
         stdin=subprocess.PIPE
     )
 
-    for frame_index in range(frame_count):
-        frame = create_waveform_frame(
-            activity[frame_index],
-            frame_index
+    if process.stdin is None:
+        raise RuntimeError(
+            "Could not open the FFmpeg input pipe."
         )
 
-        process.stdin.write(
-            frame.tobytes()
-        )
-
-        if frame_index % FPS == 0:
-            seconds_completed = (
-                frame_index / FPS
+    try:
+        for frame_index in range(frame_count):
+            image = create_waveform_frame(
+                activity[frame_index],
+                frame_index
             )
 
-            print(
-                f"Rendered "
-                f"{seconds_completed:.0f}/"
-                f"{actual_duration:.0f} seconds"
+            process.stdin.write(
+                image.tobytes()
             )
+
+            if (
+                frame_index % FPS == 0
+                or frame_index == frame_count - 1
+            ):
+                rendered_seconds = (
+                    frame_index + 1
+                ) / FPS
+
+                print(
+                    f"Rendered "
+                    f"{rendered_seconds:.0f}/"
+                    f"{actual_duration:.0f} seconds"
+                )
+
+    except Exception:
+        process.stdin.close()
+        process.wait()
+        raise
 
     process.stdin.close()
-
     return_code = process.wait()
 
     if return_code != 0:
@@ -333,13 +374,14 @@ def render_transparent_video(
             "FFmpeg could not create the video."
         )
 
-    print("Transparent video completed.")
+    print("Video export completed.")
 
 def generate_video(
     audio_file,
     output_file,
     color,
-    duration_seconds=None
+    duration_seconds=None,
+    export_type="prores_audio"
 ):
     global WAVEFORM_COLOR
     WAVEFORM_COLOR = color
@@ -365,11 +407,12 @@ def generate_video(
             audio_duration
         )
 
-    render_transparent_video(
-        audio_file,
-        activity,
-        output_file,
-        duration_seconds
+    render_video(
+        audio_file=audio_file,
+        activity=activity,
+        output_file=output_file,
+        duration_seconds=duration_seconds,
+        export_type=export_type
     )
 
 def main():

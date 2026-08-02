@@ -34,8 +34,16 @@ class MainWindow(QMainWindow):
             "Waveform colour, for example #C8A96A"
         )
 
-        self.export_button = QPushButton(
-            "Export Transparent MOV"
+        self.youtube_button = QPushButton(
+            "Export YouTube MP4"
+        )
+
+        self.prores_audio_button = QPushButton(
+            "Export Transparent ProRes MOV + Audio"
+        )
+
+        self.prores_silent_button = QPushButton(
+            "Export Transparent ProRes MOV — No Audio"
         )
 
         self.status_label = QLabel(
@@ -46,20 +54,29 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.audio_label)
         layout.addWidget(self.choose_audio_button)
         layout.addWidget(self.color_input)
-        layout.addWidget(self.export_button)
+        layout.addWidget(self.youtube_button)
+        layout.addWidget(self.prores_audio_button)
+        layout.addWidget(self.prores_silent_button)
         layout.addWidget(self.status_label)
 
         container = QWidget()
         container.setLayout(layout)
-
         self.setCentralWidget(container)
 
         self.choose_audio_button.clicked.connect(
             self.choose_audio
         )
 
-        self.export_button.clicked.connect(
-            self.export_video
+        self.youtube_button.clicked.connect(
+            lambda: self.export_video("youtube")
+        )
+
+        self.prores_audio_button.clicked.connect(
+            lambda: self.export_video("prores_audio")
+        )
+
+        self.prores_silent_button.clicked.connect(
+            lambda: self.export_video("prores_silent")
         )
 
     def choose_audio(self):
@@ -84,7 +101,7 @@ class MainWindow(QMainWindow):
                 "Audio file selected."
             )
 
-    def export_video(self):
+    def export_video(self, export_type):
         if self.audio_file is None:
             self.status_label.setText(
                 "Please choose an audio file first."
@@ -99,16 +116,32 @@ class MainWindow(QMainWindow):
             )
             return
 
+        if export_type == "youtube":
+            extension = ".mp4"
+            description = "YouTube Video (*.mp4)"
+            name_ending = "_youtube"
+
+        elif export_type == "prores_audio":
+            extension = ".mov"
+            description = "QuickTime Video (*.mov)"
+            name_ending = "_transparent_audio"
+
+        else:
+            extension = ".mov"
+            description = "QuickTime Video (*.mov)"
+            name_ending = "_transparent_silent"
+
         suggested_name = (
                 self.audio_file.stem
-                + "_waveform.mov"
+                + name_ending
+                + extension
         )
 
         output_file, _ = QFileDialog.getSaveFileName(
             self,
-            "Export transparent waveform",
+            "Choose export location",
             str(self.audio_file.parent / suggested_name),
-            "QuickTime Video (*.mov)",
+            description,
         )
 
         if not output_file:
@@ -119,8 +152,8 @@ class MainWindow(QMainWindow):
 
         output_path = Path(output_file)
 
-        if output_path.suffix.lower() != ".mov":
-            output_path = output_path.with_suffix(".mov")
+        if output_path.suffix.lower() != extension:
+            output_path = output_path.with_suffix(extension)
 
         self.status_label.setText(
             "Exporting video..."
@@ -133,7 +166,8 @@ class MainWindow(QMainWindow):
                 audio_file=self.audio_file,
                 output_file=output_path,
                 color=color,
-                duration_seconds=None
+                duration_seconds=None,
+                export_type=export_type
             )
 
         except Exception as error:
