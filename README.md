@@ -29,11 +29,12 @@
 
 <p>
   <img
-    src="https://img.shields.io/badge/DESKTOP-PYSIDE6-green?style=for-the-badge&logo=QT&logoColor=green"
-
+    src="https://img.shields.io/badge/DESKTOP-PYSIDE6-41CD52?style=for-the-badge&logo=qt&logoColor=white&labelColor=484848"
+    alt="PySide6"
   >
   <img
-    src="https://img.shields.io/badge/WEB-FASTAPI-009688?style=for-the-badge&logo=fastapi&logoColor=009688"
+    src="https://img.shields.io/badge/WEB-FASTAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white&labelColor=484848"
+    alt="FastAPI"
   >
 </p>
 
