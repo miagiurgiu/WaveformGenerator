@@ -10,7 +10,7 @@ Python waveform generator prototype
 
 <p>
   <img
-    src="https://img.shields.io/badge/CORE-PYTHON-3776AB?style=for-the-badge&logo=python&logoColor=white&labelColor=4A4A4A"
+    src="https://img.shields.io/badge/any_text-you_like-pink"
     alt="Python"
   >
   <img
