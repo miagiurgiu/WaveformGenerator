@@ -1,6 +1,3 @@
-# WaveformGenerator
-**Python waveform generator prototype**
-
 <div align="center">
 
 <h1>Waveform Generator 〰️</h1>
