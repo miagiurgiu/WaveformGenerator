@@ -13,8 +13,7 @@
 
 <p>
   <img
-    src="https://img.shields.io/badge/ENGINE-PYTHON-3776AB?style=for-the-badge&logo=python&logoColor=white&labelColor=484848"
-    alt="Python"
+    src=""
   >
   <img
     src="https://img.shields.io/badge/AUDIO-FFMPEG-007808?style=for-the-badge&logo=ffmpeg&logoColor=white&labelColor=484848"
