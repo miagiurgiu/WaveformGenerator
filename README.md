@@ -22,11 +22,15 @@
     src="https://img.shields.io/badge/SIGNAL-NUMPY-4D77CF?style=for-the-badge&logo=numpy&logoColor=white&labelColor=484848"
     alt="NumPy"
   >
+  <img
+    src="https://img.shields.io/badge/DRAWING-PILLOW-pink?style=for-the-badge&logo=pillow&logoColor=pink"
+  >
 </p>
 
 <p>
   <img
-    src="https://img.shields.io/badge/DRAWING-PILLOW-pink?style=for-the-badge&logo=pillow&logoColor=pink"
+    src="https://img.shields.io/badge/DESKTOP-PYSIDE6-green?style=for-the-badge&logo=QT&logoColor=green"
+
   >
   <img
     src="https://img.shields.io/badge/WEB-FASTAPI-009688?style=for-the-badge&logo=fastapi&logoColor=009688"
