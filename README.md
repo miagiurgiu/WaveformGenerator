@@ -47,4 +47,6 @@ The project provides both a **PySide6 desktop interface** and a **FastAPI web in
 
 The application supports **transparent ProRes 4444 exports** in landscape and vertical formats, with the option to include or exclude the original audio. These videos can be later imported into video editors and placed over other footage.
 
+> **Note:** One of the strengths of this project lies in the flexible audio input. It allows the user to input various formats like WAV, MP3, M4A and even MOV and MP4 if they contain an audio stream.
+
 ---
