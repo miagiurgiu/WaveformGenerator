@@ -50,3 +50,12 @@ The application supports **transparent ProRes 4444 exports** in landscape and ve
 > **Note:** One of the strengths of this project lies in the flexible audio input. It allows the user to input various formats like WAV, MP3, M4A and even MOV and MP4 if they contain an audio stream.
 
 ---
+
+## Demo
+
+> These previews...
+
+---
+
+## Project Structure
+
