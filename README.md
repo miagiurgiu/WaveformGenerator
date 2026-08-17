@@ -47,7 +47,7 @@ The project provides both a **PySide6 desktop interface** and a **FastAPI web in
 
 The application supports **transparent ProRes 4444 exports** in landscape and vertical formats, with the option to include or exclude the original audio. These videos can be later imported into video editors and placed over other footage.
 
-> **Note:** One of the strengths of this project lies in the flexible audio input. It allows the user to input various formats like WAV, MP3, M4A and even MOV and MP4 if they contain an audio stream.
+> **Note:** One of the strengths of this project lies in the flexible audio input. It allows the user to input various formats like WAV, MP3, M4A and even MOV/MP4 if they contain an audio stream.
 
 ---
 
@@ -110,11 +110,55 @@ A local web interface built with FastAPI, HTML, and CSS.
 > **Architecture note**: The desktop and web interfaces do not duplicate the signal-processing logic. Both call the same Python waveform engine, which keeps rendering behaviour consistent across the application.
 
 ## Key features
+- 
 -
 -
 -
 -
--
+
+## Audio Engineering
+The waveform animation is driven by the changing loudness of the given audio. The engine does not display the original audio signal directly. Instead, it measures the audio's energy over time and uses that information to control a multi-strand waveform.
+
+### 1. Audio decoding
+FFmpeg receives the uploaded file and decodes its audio stream into raw numerical samples. During decoding, the audio is:
+- converted to mono
+- resampled to 24,000 samples/second
+- converted to 32-bit floating-point PCM
+- returned to Python as raw binary data
+
+( - render video: create every frame and send to FFmpeg - instead of storing all frames, ffmpeg allows us to send one frame only, process it, then delete it, and so on without ?system/memory overuse?)
+
+
+NumPy interprets the binary data as an array of floating-point numbers.
+> Format note: FFmpeg allows the engine to accept common formats such as WAV, MP3, M4A, AAC, and FLAC, as well as MOV and MP4 files containing an audio stream. Compatibility depends on the codecs available in the installed FFmpeg build.
+
+### 2. Connecting audio samples to video frames
+The exported video runs at 30 frames per second, while the decoded audio contains 24,000 samples per second.
+ => each video frame has 800 audio samples and for each of these frames, RMS is calculated to find out the amplitude:
+    ```python
+    rms = np.sqrt(np.mean(frame_samples ** 2))
+    ```
+- RMS describes signal's overall energy rather than the peaks
+> Important: The current engine performs amplitude analysis, not frequency analysis. It does not currently use a Fourier transform or separate the audio into bass, midrange, and treble frequencies.
+
+### 3. Smoothing and normalizing the movement
+Smoothing loudness is needed to prevent sudden movements in the waveform. The engine smooths these changes using separate attack and release factors.
+- Attack controls how quickly the waveform grows when the audio becomes louder (like the time-complexity concept in CS:))
+- Release controls how slowly it becomes smaller when the audio becomes quieter
+  
+Normalising loudness is needed since audio files may have different recording levels. Their raw RMS values therefore can't be used directly as visual heights. Therefore, the engine makes use of the smoothed loudness value and selects the 95th percentile of it as its reference level.
+- normalize loudness: make quiet sounds more visible and set a border for loud ones
+
+## Visuals
+The visual waveform is based on a sine wave.
+- each waveform is composed of 11 individual strands for a dynamic design (VEED-inspired) 
+- the horizontal movement is produced by the phase that changes with time
+- the vertical movement is controlled by the calculated audio activity
+- a taper reduces the waveform height at the edges (taper is strongest at the centre, weaker at the edges)
+- the final shape is created by combining the sine wave and the taper
+
+
+> for more details regarding the implementation of the engine please check the specifications inside the waveform_engine.py module.
 
 ## Technology stack
 **Backend infrastructure**
@@ -131,6 +175,9 @@ A local web interface built with FastAPI, HTML, and CSS.
 
 ## Running Locally
 
+
+## Project Intentions/Storytime/Background
+This app was mainly designed as an alternative to the VEED Waveform Generator Tool. I enjoy making music-related YouTube videos and the dynamic waveform 
 ---
 **For professional inquiries, networking, or architectural discussions, feel free to reach out via GitHub or LinkedIn.*
   
