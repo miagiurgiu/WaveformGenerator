@@ -90,14 +90,14 @@ The technical core of the project. Used by both desktop and web interfaces.
   - Streams frames directly to FFmpeg
   - Exports transparent ProRes 4444 video
 
-**2. Desktop interface (/desktop_app)**
+### 2. Desktop interface (/desktop_app)
 A local graphical interface built with PySide6. It allows the user to:
 - select an audio/video file
 - choose the waveform color in hex
 - select an export format (vertical/horizontal, with/without sound)
 - choose output location
 
-**3. Web interface(/web_app)**
+### 3. Web interface(/web_app)
 A local web interface built with FastAPI, HTML, and CSS.
 - Roles:
   - Receives the uploaded file and some export settings
