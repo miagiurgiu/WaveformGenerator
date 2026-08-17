@@ -59,3 +59,20 @@ The application supports **transparent ProRes 4444 exports** in landscape and ve
 
 ## Project Structure
 
+This repository is a monorepo containing two interfaces and one shared waveform-processing engine.
+```text
+WaveformGenerator/
+├── desktop_app/
+│   └── gui.py                  # desktop interface
+│
+├── web_app/
+│   ├── static/
+│   │   └── style.css           # Web interface
+│   ├── templates/
+│   │   └── index.html          # Upload and export form
+│   └── app.py                  # FastAPI routes / file handling
+│
+├── waveform_engine.py          # Audio analysis and video rendering
+├── requirements.txt            # Python dependencies
+├── .gitignore                  # Files excluded from Git
+└── README.md                   # Project documentation
