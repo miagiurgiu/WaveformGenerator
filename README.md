@@ -76,3 +76,36 @@ WaveformGenerator/
 ├── requirements.txt            # Python dependencies
 ├── .gitignore                  # Files excluded from Git
 └── README.md                   # Project documentation
+```
+
+**1. Shared waveform engine (waveform_engine.py)**
+The technical core of the project. Used by both desktop and web interfaces.
+- Roles:
+  - Decodes input media through FFmpeg
+  - Converts the audio into mono PCM samples
+  - Measures RMS loudness for every video frame
+  - Draws the animated waveform using Pillow and NumPy
+- Highlights:
+  - Normalizes the loudness values
+  - Streams frames directly to FFmpeg
+  - Exports transparent ProRes 4444 video
+
+**2. Desktop interface (/desktop_app)**
+A local graphical interface built with PySide6. It allows the user to:
+- select an audio/video file
+- choose the waveform color in hex
+- select an export format (vertical/horizontal, with/without sound)
+- choose output location
+
+**3. Web interface(/web_app)**
+A local web interface built with FastAPI, HTML, and CSS.
+- Roles:
+  - Receives the uploaded file and some export settings
+  - Calls the waveform engine
+  - Returns the video as a download
+- Highlights:
+  - Temporarily stores the uploaded file
+  - Removes temporary files after response is complete
+
+> **Architecture note**: The desktop and web interfaces do not duplicate the signal-processing logic. Both call the same Python waveform engine, which keeps rendering behaviour consistent across the application.
+
