@@ -78,7 +78,7 @@ WaveformGenerator/
 └── README.md                   # Project documentation
 ```
 
-**1. Shared waveform engine (waveform_engine.py)**
+### 1. Shared waveform engine (waveform_engine.py)
 The technical core of the project. Used by both desktop and web interfaces.
 - Roles:
   - Decodes input media through FFmpeg
