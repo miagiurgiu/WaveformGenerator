@@ -109,3 +109,28 @@ A local web interface built with FastAPI, HTML, and CSS.
 
 > **Architecture note**: The desktop and web interfaces do not duplicate the signal-processing logic. Both call the same Python waveform engine, which keeps rendering behaviour consistent across the application.
 
+## Key features
+-
+-
+-
+-
+-
+
+## Technology stack
+**Backend infrastructure**
+- Language: Python 3.13
+- Framework:
+- Storage:
+- Security: -
+
+**Frontend client**
+- Core:
+- Build tool:
+- Styling: CSS
+
+
+## Running Locally
+
+---
+**For professional inquiries, networking, or architectural discussions, feel free to reach out via GitHub or LinkedIn.*
+  
