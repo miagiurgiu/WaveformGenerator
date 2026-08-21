@@ -217,10 +217,15 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-# Local audio and rendered videos
-local_media/
-*.mov
-*.mp3
+# Ignore files generated locally
+local_media/*
+
+# Keep README assets
+!local_media/assets/
+!local_media/assets/*.gif
+!local_media/assets/*.png
+!local_media/assets/*.jpg
+!local_media/assets/*.jpeg
 
 # Generated frames
 frames/
