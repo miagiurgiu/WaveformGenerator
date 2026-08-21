@@ -216,3 +216,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local audio and rendered videos
+local_media/
+*.mov
+*.mp3
+
+# Generated frames
+frames/

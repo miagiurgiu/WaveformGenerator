@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Audio Waveform Generator</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/style.css"
+    >
+</head>
+
+<body>
+    <main class="app">
+        <h1>Audio Waveform Generator</h1>
+
+        <p class="description">
+            Create a dynamic waveform from your audio.
+        </p>
+
+        <form
+            action="/generate"
+            method="post"
+            enctype="multipart/form-data"
+        >
+            <label for="audio">
+                Audio file
+            </label>
+
+            <input
+                id="audio"
+                name="audio_file"
+                type="file"
+                accept=".wav,.mp3,.m4a,.aac,.flac,.mp4,.mov"
+                required
+            >
+
+            <label for="colour">
+                Waveform colour
+            </label>
+
+            <input
+                id="colour"
+                name="color"
+                type="color"
+                value="#c8a96a"
+            >
+
+            <label for="format">
+                Export format
+            </label>
+
+            <select
+                id="format"
+                name="export_type"
+            >
+                <option value="prores_audio">
+                    Landscape ProRes + Audio
+                </option>
+
+                <option value="prores_silent">
+                    Landscape ProRes — No Audio
+                </option>
+
+                <option value="prores_shorts_audio">
+                    Shorts ProRes + Audio
+                </option>
+
+                <option value="prores_shorts_silent">
+                    Shorts ProRes — No Audio
+                </option>
+            </select>
+
+            <button type="submit">
+                Generate Video
+            </button>
+        </form>
+
+        <p class="status">
+            Choose an audio file to begin!
+        </p>
+    </main>
+</body>
+
+</html>

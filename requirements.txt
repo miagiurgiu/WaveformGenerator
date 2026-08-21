@@ -1,0 +1,8 @@
+# Python packages needed:
+numpy
+Pillow
+PySide6
+fastapi
+uvicorn
+python-multipart
+Jinja2

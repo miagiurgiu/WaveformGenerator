@@ -1,6 +1,6 @@
 import sys
 from pathlib import Path
-from main import generate_video
+from waveform_engine import generate_video
 
 from PySide6.QtWidgets import (
     QApplication,
@@ -25,30 +25,20 @@ class MainWindow(QMainWindow):
 
         self.audio_label = QLabel("No audio file selected")
 
-        self.choose_audio_button = QPushButton(
-            "Choose Audio"
-        )
+        self.choose_audio_button = QPushButton("Choose Audio")
 
         self.color_input = QLineEdit("#C8A96A")
-        self.color_input.setPlaceholderText(
-            "Waveform colour, for example #C8A96A"
-        )
+        self.color_input.setPlaceholderText("Waveform colour, for example #C8A96A")
 
-        self.youtube_button = QPushButton(
-            "Export YouTube MP4"
-        )
+        self.youtube_button = QPushButton("Export YouTube MP4")
 
-        self.prores_audio_button = QPushButton(
-            "Export Transparent ProRes MOV + Audio"
-        )
+        self.prores_audio_button = QPushButton("Export Transparent ProRes MOV + Audio")
 
-        self.prores_silent_button = QPushButton(
-            "Export Transparent ProRes MOV — No Audio"
-        )
+        self.prores_silent_button = QPushButton("Export Transparent ProRes MOV — No Audio")
 
-        self.status_label = QLabel(
-            "Choose an audio file to begin."
-        )
+        self.prores_shorts_button = QPushButton("Export Transparent ProRes MOV — Shorts")
+
+        self.status_label = QLabel("Choose an audio file to begin.")
 
         layout = QVBoxLayout()
         layout.addWidget(self.audio_label)
@@ -58,26 +48,18 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.prores_audio_button)
         layout.addWidget(self.prores_silent_button)
         layout.addWidget(self.status_label)
+        layout.addWidget(self.prores_shorts_button)
 
         container = QWidget()
         container.setLayout(layout)
         self.setCentralWidget(container)
 
-        self.choose_audio_button.clicked.connect(
-            self.choose_audio
-        )
+        self.choose_audio_button.clicked.connect(self.choose_audio)
+        self.youtube_button.clicked.connect(lambda: self.export_video("youtube"))
+        self.prores_audio_button.clicked.connect(lambda: self.export_video("prores_audio"))
+        self.prores_silent_button.clicked.connect(lambda: self.export_video("prores_silent"))
 
-        self.youtube_button.clicked.connect(
-            lambda: self.export_video("youtube")
-        )
-
-        self.prores_audio_button.clicked.connect(
-            lambda: self.export_video("prores_audio")
-        )
-
-        self.prores_silent_button.clicked.connect(
-            lambda: self.export_video("prores_silent")
-        )
+        self.prores_shorts_button.clicked.connect(lambda: self.export_video("prores_shorts_silent"))
 
     def choose_audio(self):
         selected_file, _ = QFileDialog.getOpenFileName(
@@ -125,6 +107,11 @@ class MainWindow(QMainWindow):
             extension = ".mov"
             description = "QuickTime Video (*.mov)"
             name_ending = "_transparent_audio"
+
+        elif export_type == "prores_silent":
+            extension = ".mov"
+            description = "QuickTime Video (*.mov)"
+            name_ending = "_transparent_silent"
 
         else:
             extension = ".mov"
@@ -206,4 +193,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main() #.

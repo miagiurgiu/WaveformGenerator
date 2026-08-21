@@ -1,0 +1,45 @@
+body {
+    min-height: 100vh;
+    margin: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+    background: #121212;
+    font-family: Arial, sans-serif;
+}
+
+.app {
+    width: 500px;
+    padding: 32px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+
+    background: #202124;
+    border-radius: 16px;
+}
+
+h1 {
+    color: #c8a96a;
+}
+
+input,
+select,
+button {
+    padding: 12px;
+}
+
+button {
+    margin-top: 12px;
+    cursor: pointer;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
