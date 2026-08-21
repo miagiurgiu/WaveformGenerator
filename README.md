@@ -53,7 +53,7 @@ The application supports **transparent ProRes 4444 exports** in landscape and ve
 
 ## Demo
 
-> These previews...
+> These preview shows how the waveform responds to changes in loudness.
 ![Audio-reactive waveform preview](local_media/assets/waveform-demo.gif)
 ---
 
