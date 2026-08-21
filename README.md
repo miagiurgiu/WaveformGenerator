@@ -172,7 +172,6 @@ The visual waveform is based on a sine wave:
 - Development server: Uvicorn
 - Temporary file handling: Python temporary directories
 
-
 ## Running Locally
 ---
 
