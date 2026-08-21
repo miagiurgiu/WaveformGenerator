@@ -53,9 +53,11 @@ The application supports **transparent ProRes 4444 exports** in landscape and ve
 
 ## 🎬 Demo
 
-> These preview shows how the waveform responds to changes in loudness.
+> This preview shows how the waveform responds to changes in loudness.
 ![Audio-reactive waveform preview](local_media/assets/waveform-demo.gif)
----
+
+> The desktop interface:
+> The web interface:
 
 ## 🧩 Project Structure
 This repository is a monorepo containing two interfaces and one shared waveform-processing engine.
