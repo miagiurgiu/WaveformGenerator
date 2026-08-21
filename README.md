@@ -109,15 +109,12 @@ A local web interface built with FastAPI, HTML, and CSS.
 
 > **Architecture note**: The desktop and web interfaces do not duplicate the signal-processing logic. Both call the same Python waveform engine, which keeps rendering behaviour consistent across the application.
 
-## Key features
+## Features
 - **Audio-reactive movement:** The waveform grows/contracts according to the changing RMS energy of the input audio.
 - **Smooth animation:** Separate attack and release factors prevent abrupt movements.
-- **Flexible media input:** Supports common formats such as WAV, MP3, M4A, AAC, and FLAC, as well as MOV, MP4.
 - **Transparent video export:** Generates ProRes 444 MOV files with an alpha channel
 - **Optional embedded audio:** Exports can include the original soundtrack or contain only the waveform.
 - **Two user interfaces:** Provides both a PySide^ desktop interface and a FastAPI one.
-- **Shared processing engine:** Both interfaces use the same audio-analysis and rendering logic.
-- **Efficient frame streaming:** Sends frames directly to FFmpeg without permanently storing thousands of PNG files.
 
 ## Audio Engineering
 The waveform animation is driven by the changing loudness of the given audio. The engine does not display the original audio signal directly. Instead, it measures the audio's energy over time and uses that information to control a multi-strand waveform.
@@ -158,9 +155,8 @@ The visual waveform is based on a sine wave:
 - a taper makes the waveform flat towards both edges
 - the final shape is created by combining the sine wave and the taper
 - the frame is drawn at three times its final resolution and reduced using LANCZOS resampling for smoother lines.
-
-### Direct frame streaming
-The engine creates one frame at a time and sends its raw pixels directly to FFmpeg through an input pipe. This avoids saving thousands of temporary PNG files and keeps disk and memory usage under control.
+  
+> Direct frame streaming: The engine creates one frame at a time and sends its raw pixels directly to FFmpeg through an input pipe. This avoids saving thousands of temporary PNG files and keeps disk and memory usage under control.
 
 > for more details regarding the implementation of the engine please check the specifications inside the waveform_engine.py module.
 
