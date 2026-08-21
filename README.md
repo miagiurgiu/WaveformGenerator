@@ -54,7 +54,7 @@ The application supports **transparent ProRes 4444 exports** in landscape and ve
 ## Demo
 
 > These previews...
-
+![Audio-reactive waveform preview](local_media/assets/Screen Recording 2026-08-21 at 18.33.14.mov)
 ---
 
 ## Project Structure
