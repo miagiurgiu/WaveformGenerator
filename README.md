@@ -58,7 +58,6 @@ The application supports **transparent ProRes 4444 exports** in landscape and ve
 ---
 
 ## Project Structure
-
 This repository is a monorepo containing two interfaces and one shared waveform-processing engine.
 ```text
 WaveformGenerator/
@@ -109,14 +108,15 @@ A local web interface built with FastAPI, HTML, and CSS.
 
 > **Architecture note**: The desktop and web interfaces do not duplicate the signal-processing logic. Both call the same Python waveform engine, which keeps rendering behaviour consistent across the application.
 
-## Features
+## 💡 Key Features
 - **Audio-reactive movement:** The waveform grows/contracts according to the changing RMS energy of the input audio.
 - **Smooth animation:** Separate attack and release factors prevent abrupt movements.
 - **Transparent video export:** Generates ProRes 444 MOV files with an alpha channel
 - **Optional embedded audio:** Exports can include the original soundtrack or contain only the waveform.
 - **Two user interfaces:** Provides both a PySide^ desktop interface and a FastAPI one.
+- **Direct frame streaming:** The engine creates one frame at a time and sends its raw pixels directly to FFmpeg through an input pipe. This avoids saving thousands of temporary PNG files and keeps disk and memory usage under control.
 
-## Audio Engineering
+## 🎧 Audio Engineering
 The waveform animation is driven by the changing loudness of the given audio. The engine does not display the original audio signal directly. Instead, it measures the audio's energy over time and uses that information to control a multi-strand waveform.
 
 > **Audio-quality note:** Audio analysis and final audio export follow separate paths. FFmpeg creates a 24 kHz mono representation only for calculating movement. For exports with audio, FFmpeg reads the original input again and preserves its original channel layout as uncompressed 24-bit PCM.
@@ -147,20 +147,18 @@ Because audio files can have different recording levels, the smoothed values are
 
 ---
 
-## Visuals
+## 🎥 Visuals
 The visual waveform is based on a sine wave:
 - it is composed of 11 individual strands
 - the horizontal movement is produced by the phase that changes with time
 - the vertical movement is controlled by the calculated audio activity
 - a taper makes the waveform flat towards both edges
 - the final shape is created by combining the sine wave and the taper
-- the frame is drawn at three times its final resolution and reduced using LANCZOS resampling for smoother lines.
+- the frame is drawn at three times its final resolution and reduced using LANCZOS resampling for smoother lines
   
-> Direct frame streaming: The engine creates one frame at a time and sends its raw pixels directly to FFmpeg through an input pipe. This avoids saving thousands of temporary PNG files and keeps disk and memory usage under control.
+> For more details regarding the implementation of the engine please check the specifications inside the waveform_engine.py module.
 
-> for more details regarding the implementation of the engine please check the specifications inside the waveform_engine.py module.
-
-## Technology stack
+## ⚙️ Technology stack
 **Backend infrastructure**
 - Language: Python 3.13
 - Audio and video processing: FFmpeg
@@ -178,7 +176,7 @@ The visual waveform is based on a sine wave:
 ## Running Locally
 ---
 
-## Project Intentions/Storytime/Background
+## Project Intentions
 This app was mainly designed as an alternative to the VEED Waveform Generator Tool. 
 
 ---
