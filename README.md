@@ -3,7 +3,8 @@
 <h1>Waveform Generator 〰️</h1>
 
 <p>
-  <strong>An audio-reactive waveform renderer for high-quality video overlays. It is a VEED - inspired app (kind of a free alternative to its Audio Waveform Generator tool :))
+  <strong>An audio-reactive waveform renderer for high-quality video overlays. 
+    It is a VEED - inspired app (kind of a free alternative to its Audio Waveform Generator tool :))
 </strong>
 </p>
 
