@@ -3,7 +3,8 @@
 <h1>Waveform Generator 〰️</h1>
 
 <p>
-  <strong>An audio-reactive waveform renderer for high-quality video overlays.</strong>
+  <strong>An audio-reactive waveform renderer for high-quality video overlays. It is a VEED - inspired app (kind of a free alternative to its Audio Waveform Generator tool :))
+</strong>
 </p>
 
 <br>
@@ -41,8 +42,7 @@
 
 ## 📖 Project Overview
 
-**Waveform Generator** is a Python application that transforms audio files into animated, audio-reactive waveform videos. The waveform responds to changes in loudness and can be customized using a hexadecimal colour value. It is a VEED - inspired app (kind of a free alternative to its Audio Waveform Generator tool :))
-
+**Waveform Generator** is a Python application that transforms audio files into animated, audio-reactive waveform videos. The waveform responds to changes in loudness and can be customized using a hexadecimal colour value. 
 The project provides both a **PySide6 desktop interface** and a **FastAPI web interface**. Both interfaces use the same waveform-processing engine, keeping the audio analysis and rendering logic in one place.
 
 The application supports **transparent ProRes 4444 exports** in landscape and vertical formats, with the option to include or exclude the original audio. These videos can be later imported into video editors and placed over other footage.
