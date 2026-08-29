@@ -41,13 +41,13 @@
 
 ## 📖 Project Overview
 
-**Waveform Generator** is a Python application that transforms audio files into animated, audio-reactive waveform videos. The waveform responds to changes in loudness and can be customized using a hexadecimal colour value. It is a VEED - inspired app (a free alternative to its Audio Waveform Generator tool :))
+**Waveform Generator** is a Python application that transforms audio files into animated, audio-reactive waveform videos. The waveform responds to changes in loudness and can be customized using a hexadecimal colour value. It is a VEED - inspired app (kind of a free alternative to its Audio Waveform Generator tool :))
 
 The project provides both a **PySide6 desktop interface** and a **FastAPI web interface**. Both interfaces use the same waveform-processing engine, keeping the audio analysis and rendering logic in one place.
 
 The application supports **transparent ProRes 4444 exports** in landscape and vertical formats, with the option to include or exclude the original audio. These videos can be later imported into video editors and placed over other footage.
 
-> **Note:** One of the strengths of this project lies in the flexible audio input. It allows the user to input various formats like WAV, MP3, M4A and even MOV/MP4 if they contain an audio stream.
+> **Note:** One of the strengths of this project lies in the flexible audio input. It allows the user to input various formats like WAV, MP3, M4A and even MOV/MP4 if they contain an audio stream. Another strength is that it supports high-quality FullHD (1080p) exports in both landscape and vertical formats.
 
 ---
 
@@ -178,7 +178,7 @@ The visual waveform is based on a sine wave:
 ---
 
 ## Project Intentions
-This app was mainly designed as an alternative to the VEED Waveform Generator Tool. 
+One of the reasons why I built this app is because I needed something that could easily export high-quality FullHD videos for my YouTube channel projects. I really liked the VEED audio waveform generator tool, but once I realised that it restricted the video quality to SD on the unpaid version, I knew I had to break free and build my own thing. Which at least is free :)
 
 ---
 **For professional inquiries, networking, or architectural discussions, feel free to reach out via GitHub or LinkedIn.*
